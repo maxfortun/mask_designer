@@ -87,7 +87,7 @@ function drawCanvas() {
 
 function addImageUI(canvas) {
 	canvas.image = new Image();
-	canvas.image.crossOrigin = "use-credentials";
+	canvas.image.crossOrigin = "anonymous";
 
 	canvas.image.addEventListener('load', function() {
 		canvas.image.offsetX = 0;
