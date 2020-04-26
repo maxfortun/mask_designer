@@ -139,6 +139,7 @@ function loadImageFromInput() {
 }
 
 function loadImage(canvas, url) {
+	url = "https://cors-anywhere.herokuapp.com/"+url;
 	console.log("Loading", url);
 
 	canvas.image = new Image();
