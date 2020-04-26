@@ -86,10 +86,8 @@ function drawCanvas() {
 }
 
 function addImageUI(canvas) {
-	//canvas.image = new Image();
-	canvas.image = document.createElement('img');
-
-	//canvas.image.crossOrigin = "anonymous";
+	canvas.image = new Image();
+	canvas.image.crossOrigin = "anonymous";
 
 	canvas.image.addEventListener('load', function() {
 		canvas.image.offsetX = 0;
