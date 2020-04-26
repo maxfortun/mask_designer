@@ -36,7 +36,7 @@ function in2px(sizeIn, sizePx, value) {
 function drawMenu() {
 	var menu = document.getElementById("menu");
 	var canvas = document.getElementById("canvas");
-	menu.style.top = canvas.roi.top - menu.clientHeight-2;
+	//menu.style.top = canvas.roi.top - menu.clientHeight-2;
 	menu.style.left = canvas.roi.left-2;
 	menu.style.width = canvas.roi.width+1;
 }
@@ -86,6 +86,19 @@ function drawCanvas() {
 }
 
 function addImageUI(canvas) {
+	canvas.image = new Image();
+	canvas.image.crossOrigin = "anonymous";
+
+	canvas.image.addEventListener('load', (event) => {
+		canvas.image.offsetX = 0;
+		canvas.image.offsetY = 0;
+		drawImage(canvas);
+	}, false);
+
+	canvas.image.addEventListener('error', (event) => {
+		console.log("Failed to load image", canvas.image.src, event);
+	});
+
 	canvas.addEventListener("mousedown", (event) => {
 		var canvas = event.target;
 		canvas.isDragging = true;
@@ -139,21 +152,7 @@ function loadImageFromInput() {
 }
 
 function loadImage(canvas, url) {
-	url = "https://cors-anywhere.herokuapp.com/"+url;
 	console.log("Loading", url);
-
-	canvas.image = new Image();
-	canvas.image.crossOrigin = "anonymous";
-
-	canvas.image.addEventListener('load', (event) => {
-		canvas.image.offsetX = 0;
-		canvas.image.offsetY = 0;
-		drawImage(canvas);
-	}, false);
-
-	canvas.image.addEventListener('error', (event) => {
-		console.log("Failed to load image", canvas.image.src, event);
-	});
 
 	canvas.image.src = url;
 }
@@ -188,17 +187,20 @@ function init() {
 		</script>
 	</head>
 	<body onload="init()">
-		<div id="menu" class="no-print" style="position: absolute; display: inline-flex; border: 1px dotted black;">
-			<input id="url" type="text" onBlur="loadImageFromInput()"
+		<div id="menu" class="no-print" style="position: absolute; border: 1px dotted black;">
+			<div>To use go to <a href="https://images.google.com/">https://images.google.com/</a>. Click on the image you like. Right click on the large version and select "Copy image address". Paste it into the url field below and print out your mask.</div>
+			<input id="url" type="text" style="width: 100%" onBlur="loadImageFromInput()"
 				value="https://wikiclipart.com/wp-content/uploads/2016/11/Tiger-black-and-white-tiger-head-black-and-white-clipart.jpg"
 			></input>
-			<div style="width: 100%"></div>
-			<div style="cursor: pointer">Reset</div>
-			<div style="width: 100%"></div>
-			<div style="cursor: pointer" onClick="centerImage()">Center</div>
-			<div style="width: 100%"></div>
-			<div style="cursor: pointer" onClick="toggleFit()">Fit</div>
-			<div style="width: 100%"></div>
+			<div style="width: 100%; display: inline-flex;">
+				<div style="width: 100%"></div>
+				<div style="cursor: pointer">Reset</div>
+				<div style="width: 100%"></div>
+				<div style="cursor: pointer" onClick="centerImage()">Center</div>
+				<div style="width: 100%"></div>
+				<div style="cursor: pointer" onClick="toggleFit()">Fit</div>
+				<div style="width: 100%"></div>
+			</div>
 		</div>
 		<canvas id="canvas" style="width: 8.5in; height: 11in; margin: 0 0 0 0;"></canvas>
 	</body>
