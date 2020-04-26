@@ -86,8 +86,10 @@ function drawCanvas() {
 }
 
 function addImageUI(canvas) {
-	canvas.image = new Image();
-	//canvas.image.crossOrigin = "use-credentials";
+	//canvas.image = new Image();
+	canvas.image = document.createElement('img');
+
+	//canvas.image.crossOrigin = "anonymous";
 
 	canvas.image.addEventListener('load', function() {
 		canvas.image.offsetX = 0;
@@ -196,3 +198,4 @@ function init() {
 		<canvas id="canvas" style="width: 8.5in; height: 11in; margin: 0 0 0 0;"></canvas>
 	</body>
 </html>
+
