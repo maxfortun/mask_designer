@@ -1,0 +1,127 @@
+<html>
+	<head>
+		<style>
+			@page {
+				margin: 0 0 0 0;
+			}
+
+			body {
+				margin: 0 0 0 0;
+			}
+		</style>
+		<script>
+
+function inX(canvas, value) {
+	return in2px(canvas.style.width, canvas.clientWidth, value);
+}
+
+function inY(canvas, value) {
+	return in2px(canvas.style.height, canvas.clientHeight, value);
+}
+
+function in2px(sizeIn, sizePx, value) {
+	sizeIn = parseFloat(sizeIn.replace("in",""));
+	var scale = sizePx/sizeIn;
+	var scaled = value * scale;
+	console.log(sizeIn, sizePx, value, scale, scaled);
+	return scaled;
+}
+
+function draw() {
+	var canvas = document.getElementById("canvas");
+
+	// resize to inches
+	canvas.width = canvas.clientWidth;
+	canvas.height = canvas.clientHeight;
+
+	var context = canvas.getContext("2d");
+	context.beginPath();
+
+	// context.moveTo(0, inY(canvas, 1.25));
+	// context.lineTo(canvas.width, inY(canvas, 1.25));
+
+
+	canvas.roi = {};
+
+	canvas.roi.context = context;
+	canvas.roi.left = inX(canvas, 1+(1/16));
+	canvas.roi.top = canvas.height / 2;
+	canvas.roi.right = canvas.width - inX(canvas, 1+(1/16));
+	canvas.roi.bottom = canvas.height / 2 + inY(canvas, 3);
+	canvas.roi.width = canvas.roi.right - canvas.roi.left;
+	canvas.roi.height = canvas.roi.bottom - canvas.roi.top;
+
+	context.rect(canvas.roi.left-1, canvas.roi.top-1, canvas.roi.width+1, canvas.roi.height+1);
+	context.stroke();
+
+	context.rect(canvas.roi.left, canvas.roi.top, canvas.roi.width, canvas.roi.height);
+	context.clip();
+
+
+	// context.moveTo(0, canvas.height - inY(canvas, 1.25));
+	// context.lineTo(canvas.width, canvas.height - inY(canvas, 1.25));
+
+	
+	addImageUI(canvas);
+
+	loadImage(canvas, 'https://wikiclipart.com/wp-content/uploads/2016/11/Tiger-black-and-white-tiger-head-black-and-white-clipart.jpg');
+}
+
+function addImageUI(canvas) {
+	canvas.image = new Image();
+
+	canvas.image.addEventListener('load', function() {
+		canvas.image.offsetX = 0;
+		canvas.image.offsetY = 0;
+		drawImage(canvas);
+	}, false);
+
+	canvas.addEventListener("mousedown", (event) => {
+		var canvas = event.target;
+		canvas.isDragging = true;
+		canvas.lastX = event.clientX;
+		canvas.lastY = event.clientY;
+		console.log("started dragging", event);
+	});
+
+	canvas.addEventListener("mouseup", (event) => {
+		var canvas = event.target;
+		canvas.isDragging = false;
+		console.log("stopped dragging", event);
+	});
+
+	canvas.addEventListener("mousemove", (event) => {
+		var canvas = event.target;
+		if(!canvas.isDragging) {
+			return;
+		}
+
+		var x = canvas.lastX - event.clientX;
+		var y = canvas.lastY - event.clientY;
+		console.log("dragging", x, y);
+
+		canvas.image.offsetX += x;
+		canvas.image.offsetY += y;
+
+		canvas.lastX = event.clientX;
+		canvas.lastY = event.clientY;
+		drawImage(canvas);
+	});
+
+}
+
+function drawImage(canvas) {
+	console.log("Offset: ", canvas.image.offsetX, canvas.image.offsetY);
+	canvas.roi.context.drawImage(canvas.image, canvas.roi.left-canvas.image.offsetX, canvas.roi.top-canvas.image.offsetY);
+}
+
+function loadImage(canvas, url) {
+	canvas.image.src = url;
+}
+
+		</script>
+	</head>
+	<body onload="draw()">
+		<canvas id="canvas" style="width: 8.5in; height: 11in; margin: 0 0 0 0;"></canvas>
+	</body>
+</html>
