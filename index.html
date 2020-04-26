@@ -78,7 +78,6 @@ function drawCanvas() {
 	
 	addImageUI(canvas);
 
-	loadImage(canvas, 'https://wikiclipart.com/wp-content/uploads/2016/11/Tiger-black-and-white-tiger-head-black-and-white-clipart.jpg');
 }
 
 function addImageUI(canvas) {
@@ -134,6 +133,12 @@ function drawImage(canvas) {
 	}
 }
 
+function loadImageFromInput() {
+	var canvas = document.getElementById("canvas");
+	var url = document.getElementById("url");
+	loadImage(canvas, url.value);
+}
+
 function loadImage(canvas, url) {
 	canvas.image.src = url;
 }
@@ -156,12 +161,14 @@ function toggleFit() {
 function init() {
 	drawCanvas();
 	drawMenu();
+	loadImageFromInput();
 }
 
 		</script>
 	</head>
 	<body onload="init()">
 		<div id="menu" class="no-print" style="position: absolute; display: inline-flex; border: 1px dotted black;">
+			<input id="url" type="text" onChange="loadImageFromInput()" value="https://wikiclipart.com/wp-content/uploads/2016/11/Tiger-black-and-white-tiger-head-black-and-white-clipart.jpg"></input>
 			<div style="width: 100%"></div>
 			<div style="cursor: pointer">Reset</div>
 			<div style="width: 100%"></div>
