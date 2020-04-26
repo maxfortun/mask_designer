@@ -55,18 +55,23 @@ function drawCanvas() {
 	// context.lineTo(canvas.width, inY(canvas, 1.25));
 
 
-	canvas.roi = {};
+	canvas.roi = {
+		fit: true
+	};
 
 	canvas.roi.context = context;
-	canvas.roi.left = inX(canvas, 1+(1/16));
-	canvas.roi.top = canvas.height / 2 - inY(canvas, 3);
-	canvas.roi.right = canvas.width - inX(canvas, 1+(1/16));
+
+	canvas.roi.offsetX = inX(canvas, 1+(3/4));
+	canvas.roi.left = canvas.roi.offsetX;
+	canvas.roi.right = canvas.width - canvas.roi.offsetX;
+
+	canvas.roi.top = inY(canvas, 2.5);
 	canvas.roi.bottom = canvas.height / 2;
 	canvas.roi.width = canvas.roi.right - canvas.roi.left;
 	canvas.roi.height = canvas.roi.bottom - canvas.roi.top;
 
-	context.rect(canvas.roi.left-1, canvas.roi.top-1, canvas.roi.width+1, canvas.roi.height+1);
-	context.stroke();
+	//context.rect(canvas.roi.left-1, canvas.roi.top-1, canvas.roi.width+1, canvas.roi.height+1);
+	//context.stroke();
 
 	context.rect(canvas.roi.left, canvas.roi.top, canvas.roi.width, canvas.roi.height);
 	context.clip();
