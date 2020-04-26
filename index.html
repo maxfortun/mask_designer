@@ -149,6 +149,12 @@ function loadImage(canvas, url) {
 	canvas.image.src = url;
 }
 
+function onUrlKeyUp(event) {
+	if (event.keyCode === 13) {
+		loadImageFromInput();
+	}
+}
+
 function centerImage() {
 	var canvas = document.getElementById("canvas");
 	canvas.image.offsetX = canvas.roi.width/2;
@@ -174,7 +180,11 @@ function init() {
 	</head>
 	<body onload="init()">
 		<div id="menu" class="no-print" style="position: absolute; display: inline-flex; border: 1px dotted black;">
-			<input id="url" type="text" onChange="loadImageFromInput()" value="https://wikiclipart.com/wp-content/uploads/2016/11/Tiger-black-and-white-tiger-head-black-and-white-clipart.jpg"></input>
+			<input id="url" type="text"
+				onKeyUp="onUrlKeyUp()"
+				onBlur="loadImageFromInput()"
+				value="https://wikiclipart.com/wp-content/uploads/2016/11/Tiger-black-and-white-tiger-head-black-and-white-clipart.jpg"
+			></input>
 			<div style="width: 100%"></div>
 			<div style="cursor: pointer">Reset</div>
 			<div style="width: 100%"></div>
