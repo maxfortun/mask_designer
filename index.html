@@ -134,6 +134,12 @@ function drawImage(canvas) {
 
 function loadImageFromInput() {
 	var canvas = document.getElementById("canvas");
+	var url = document.getElementById("url");
+	loadImage(canvas, url.value);
+}
+
+function loadImage(canvas, url) {
+	console.log("Loading", url);
 
 	canvas.image = new Image();
 	canvas.image.crossOrigin = "anonymous";
@@ -148,12 +154,6 @@ function loadImageFromInput() {
 		console.log("Failed to load image", canvas.image.src, event);
 	});
 
-	var url = document.getElementById("url");
-	loadImage(canvas, url.value);
-}
-
-function loadImage(canvas, url) {
-	console.log("Loading", url);
 	canvas.image.src = url;
 }
 
