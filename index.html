@@ -89,11 +89,15 @@ function addImageUI(canvas) {
 	canvas.image = new Image();
 	canvas.image.crossOrigin = "anonymous";
 
-	canvas.image.addEventListener('load', function() {
+	canvas.image.addEventListener('load', (event) => {
 		canvas.image.offsetX = 0;
 		canvas.image.offsetY = 0;
 		drawImage(canvas);
 	}, false);
+
+	canvas.image.addEventListener('error', (event) => {
+		console.log("Failed to load image", canvas.image.src, event);
+	});
 
 	canvas.addEventListener("mousedown", (event) => {
 		var canvas = event.target;
